@@ -58,7 +58,7 @@ ChatBot::ChatBot(const ChatBot &src)
     // deep copy data
     if(src._chatLogic != nullptr) {
         _chatLogic = new ChatLogic;
-        *_chatLogic = *src._chatLogic;
+        _chatLogic = src._chatLogic;
     }
 
     if(src._currentNode != nullptr) {
@@ -83,7 +83,7 @@ void ChatBot::CopyAssignmentHelper(T* &destPtr, T* &srcPtr) {
         if(destPtr == nullptr) {
             destPtr = new T;
         }
-        *destPtr = *srcPtr;
+        destPtr = srcPtr;
     }
     else if(destPtr != nullptr) {
         delete destPtr;
@@ -96,7 +96,7 @@ void ChatBot::CopyAssignmentHelper(GraphNode* &destPtr, GraphNode* &srcPtr) {
         if(destPtr == nullptr) {
             destPtr = new GraphNode(0);
         }
-        *destPtr = *srcPtr;
+        destPtr = srcPtr;
     }
     else if(destPtr != nullptr) {
         delete destPtr;
