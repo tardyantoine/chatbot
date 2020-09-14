@@ -45,66 +45,16 @@ ChatBot::~ChatBot()
 //// STUDENT CODE
 ////
 
-// Copy constructor
-ChatBot::ChatBot(const ChatBot &src)
+ChatBot::ChatBot(ChatBot &src) 
 {
     std::cout << "ChatBot Copy Constructor" << std::endl;
 
-        // invalidate data handles
-    _image = nullptr;
-    _chatLogic = nullptr;
-    _rootNode = nullptr;
-
-    // deep copy data
-    if(src._chatLogic != nullptr) {
-        _chatLogic = new ChatLogic;
-        _chatLogic = src._chatLogic;
-    }
-
-    if(src._currentNode != nullptr) {
-        _currentNode = new GraphNode(0);
-        *_currentNode = *src._currentNode;
-    }
-
-    if(src._rootNode != nullptr) {  
-        _rootNode = new GraphNode(0);
-        *_rootNode = *src._rootNode;
-    }
-
-    if(src._image != nullptr) {
-        _image = new wxBitmap;
-        *_image = *src._image;
-    }
+    _image = src._image;
+    _chatLogic = src._chatLogic;
+    _rootNode = src._rootNode;
 }
 
-template<class T>
-void ChatBot::CopyAssignmentHelper(T* &destPtr, T* &srcPtr) {
-    if(srcPtr != nullptr) {
-        if(destPtr == nullptr) {
-            destPtr = new T;
-        }
-        destPtr = srcPtr;
-    }
-    else if(destPtr != nullptr) {
-        delete destPtr;
-        destPtr = nullptr;
-    }
-}
-
-void ChatBot::CopyAssignmentHelper(GraphNode* &destPtr, GraphNode* &srcPtr) {
-    if(srcPtr != nullptr) {
-        if(destPtr == nullptr) {
-            destPtr = new GraphNode(0);
-        }
-        destPtr = srcPtr;
-    }
-    else if(destPtr != nullptr) {
-        delete destPtr;
-        destPtr = nullptr;
-    }
-}
-
-ChatBot &ChatBot::operator=(ChatBot &src) // Copy assignment operator
+ChatBot &ChatBot::operator=(ChatBot &src)
 {
     std::cout << "ChatBot Copy Assignment Operator" << std::endl;
 
@@ -112,11 +62,10 @@ ChatBot &ChatBot::operator=(ChatBot &src) // Copy assignment operator
         return *this;
     }
 
-    CopyAssignmentHelper<ChatLogic>(_chatLogic, src._chatLogic);
-    CopyAssignmentHelper(_currentNode, src._currentNode);
-    CopyAssignmentHelper(_rootNode, src._rootNode);
-    CopyAssignmentHelper<wxBitmap>(_image, src._image);
-    
+    _image = src._image;
+    _chatLogic = src._chatLogic;
+    _rootNode = src._rootNode;
+
     return *this;
 }
 
@@ -129,26 +78,12 @@ ChatBot::ChatBot(ChatBot &&src) // Move constructor
     _rootNode = src._rootNode;
     _image = src._image;
 
+    _chatLogic->SetChatbotHandle(this);
+
     src._chatLogic = nullptr;
     src._currentNode = nullptr;
     src._rootNode = nullptr;
-    src._image = nullptr;
-}
-
-// Logic helper to deal with moving a pointer that could be pointing to data or nullptr
-template<class T>
-void ChatBot::MoveAssignmentHelper(T* &destPtr, T* &srcPtr) {
-    if(srcPtr != nullptr) {
-        if(destPtr != nullptr) {
-            delete destPtr;
-        }
-        destPtr = srcPtr;
-        srcPtr = nullptr;
-    }
-    else if(destPtr != nullptr) {
-        delete destPtr;
-        destPtr = nullptr;
-    }
+    src._image = NULL;
 }
 
 ChatBot & ChatBot::operator=(ChatBot &&src) // Move assignment operator
@@ -158,10 +93,19 @@ ChatBot & ChatBot::operator=(ChatBot &&src) // Move assignment operator
         return *this;
     }
 
-    MoveAssignmentHelper<ChatLogic>(_chatLogic, src._chatLogic);
-    MoveAssignmentHelper<GraphNode>(_currentNode, src._currentNode);
-    MoveAssignmentHelper<GraphNode>(_rootNode, src._rootNode);
-    MoveAssignmentHelper<wxBitmap>(_image, src._image);
+    delete _image;
+
+    _image = src._image;
+    _currentNode = src._currentNode;
+    _rootNode = src._rootNode;
+    _chatLogic = src._chatLogic;
+
+    _chatLogic->SetChatbotHandle(this);
+
+    src._image = NULL;
+    src._currentNode = nullptr;
+    src._rootNode = nullptr;
+    src._chatLogic = nullptr;
 
     return *this;
 }

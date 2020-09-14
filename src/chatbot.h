@@ -20,11 +20,6 @@ private:
 
     // proprietary functions
     int ComputeLevenshteinDistance(std::string s1, std::string s2);
-    template<class T>
-    void CopyAssignmentHelper(T* &destPtr, T* &srcPtr);
-    void CopyAssignmentHelper(GraphNode* &destPtr, GraphNode* &srcPtr);
-    template<class T>
-    void MoveAssignmentHelper(T* &destPtr, T* &srcPtr);
 
 public:
     // constructors / destructors
@@ -33,7 +28,7 @@ public:
     
     // Rule of 5
     ~ChatBot();
-    ChatBot(const ChatBot &src); // Copy constructor
+    ChatBot(ChatBot &src); // Copy constructor
     ChatBot &operator=(ChatBot &src); // Copy assignment operator
     ChatBot(ChatBot &&src); // Move constructor
     ChatBot &operator=(ChatBot &&src); // Move assignment operator
