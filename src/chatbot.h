@@ -32,8 +32,6 @@ public:
     ChatBot &operator=(ChatBot &src); // Copy assignment operator
     ChatBot(ChatBot &&src); // Move constructor
     ChatBot &operator=(ChatBot &&src); // Move assignment operator
-    ////
-    //// EOF STUDENT CODE
 
     // getters / setters
     void SetCurrentNode(GraphNode *node);

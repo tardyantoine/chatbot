@@ -31,9 +31,8 @@ private:
     std::vector<std::string> _answers;
 
 public:
-    // constructor / destructor
+    // constructor
     GraphNode(int id);
-    ~GraphNode();
 
     // getter / setter
     int GetID() { return _id; }
@@ -46,15 +45,7 @@ public:
     void AddToken(std::string token); // add answers to list
     void AddEdgeToParentNode(GraphEdge *edge);
     void AddEdgeToChildNode(std::unique_ptr<GraphEdge> edge);
-
-    //// STUDENT CODE
-    ////
-
     void MoveChatbotHere(ChatBot chatbot);
-
-    ////
-    //// EOF STUDENT CODE
-
     void MoveChatbotToNewNode(GraphNode *newNode);
 };
 
